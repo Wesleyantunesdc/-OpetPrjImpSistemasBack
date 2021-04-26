@@ -23,4 +23,8 @@ public class CursoService {
 		Optional<Curso> obj = repository.findById(id);
 		return obj.get();
 	}
+	
+	public Curso insert(Curso obj) {
+		return repository.save(obj);
+	}
 }
