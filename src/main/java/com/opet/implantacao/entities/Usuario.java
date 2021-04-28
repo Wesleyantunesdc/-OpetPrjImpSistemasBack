@@ -1,4 +1,4 @@
-package com.opet.implantacao.entities;
+ package com.opet.implantacao.entities;
 
 import java.io.Serializable;
 import java.time.Instant;

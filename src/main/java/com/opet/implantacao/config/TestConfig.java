@@ -31,9 +31,11 @@ public class TestConfig implements CommandLineRunner{
 		
 		Usuario u1 = new Usuario(null, "Wesley Antunes de Camargo", "123", Instant.parse("2000-12-12T00:00:00Z"),5,c2);
 		Usuario u2 = new Usuario(null, "Eduarda Alves de Souza", "123", Instant.parse("2000-09-28T00:00:00Z"),5,c1);
+		Usuario u3 = new Usuario(null, "test", "123", Instant.parse("2000-09-28T00:00:00Z"),5,c1);
+
 
 		cursoRepository.saveAll(Arrays.asList(c1,c2,c3));
-		usuarioRepository.saveAll(Arrays.asList(u1,u2));
+		usuarioRepository.saveAll(Arrays.asList(u1,u2,u3));
 	}
 	
 }
