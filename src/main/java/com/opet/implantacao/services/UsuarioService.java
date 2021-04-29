@@ -28,6 +28,17 @@ public class UsuarioService {
 		return repository.save(obj);
 	}
 	
+	public Usuario efetuarLogin(Usuario obj) {
+		return repository.efetuarLogin(obj.getUsername(), obj.getSenha());
+	}
+	
+	public boolean validarUsername(String username) {
+		if(repository.usuarioExistente(username) == 1)
+			return true;
+		else
+			return false;
+	}
+	
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
