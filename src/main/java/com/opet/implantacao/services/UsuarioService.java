@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.opet.implantacao.entities.Usuario;
 import com.opet.implantacao.repositories.UsuarioRepository;
+import com.opet.implantacao.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -21,11 +22,20 @@ public class UsuarioService {
 	
 	public Usuario findById(Long id){
 		Optional<Usuario> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public Usuario insert(Usuario obj) {
-		return repository.save(obj);
+	public Usuario insert(Usuario obj) throws Exception {
+		//Seta como nulo o Id para que o mesmo não sobreescreva outros objetos
+		if(obj.getId()!=null)
+			obj.setId(null);
+		//Valida o username
+		if(!validarUsername(obj.getUsername())) {
+			return repository.save(obj);
+		}else {
+			throw new Exception("Usuario ja cadastrado!");
+		}
+		
 	}
 	
 	public Usuario efetuarLogin(Usuario obj) {

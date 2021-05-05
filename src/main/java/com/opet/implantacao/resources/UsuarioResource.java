@@ -3,11 +3,9 @@ package com.opet.implantacao.resources;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,22 +43,20 @@ public class UsuarioResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> insert(@RequestBody Usuario obj){
+	public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) throws Exception{
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Usuario> efetuarLogin(@RequestBody Usuario obj){
+	public boolean efetuarLogin(@RequestBody Usuario obj){
 		Usuario u = service.efetuarLogin(obj);
 		if( u == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return false;//ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}else {
-			return ResponseEntity.accepted().body(u);
+			return true;//ResponseEntity.accepted().body(u);
 		}
-		
-		
 	}
 	
 	@DeleteMapping(value = "/{id}")

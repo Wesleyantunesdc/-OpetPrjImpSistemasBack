@@ -1,6 +1,6 @@
 package com.opet.implantacao.config;
 
-import java.time.Instant;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,14 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Curso c1 = new Curso(null,"Psicologia");
 		Curso c2 = new Curso(null,"Programação");
 		Curso c3 = new Curso(null, "Medicina");
 		
-		Usuario u1 = new Usuario(null, "Wesley Antunes de Camargo", "123", Instant.parse("2000-12-12T00:00:00Z"),5,c2);
-		Usuario u2 = new Usuario(null, "Eduarda Alves de Souza", "123", Instant.parse("2000-09-28T00:00:00Z"),5,c1);
-		Usuario u3 = new Usuario(null, "test", "123", Instant.parse("2000-09-28T00:00:00Z"),5,c1);
+		Usuario u1 = new Usuario(null, "Wesley Antunes de Camargo", "wesley","123", sdf.parse("2000-12-12T00:00:00Z"),5,c2);
+		Usuario u2 = new Usuario(null, "Eduarda Alves de Souza","dudas", "1234", sdf.parse("2000-09-28T00:00:00Z"),5,c1);
+		Usuario u3 = new Usuario(null, "test","test", "123", sdf.parse("2000-09-28T00:00:00Z"),5,c1);
 
 
 		cursoRepository.saveAll(Arrays.asList(c1,c2,c3));

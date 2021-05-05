@@ -1,7 +1,7 @@
  package com.opet.implantacao.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +25,8 @@ public class Usuario implements Serializable{
 	private String username;
 	private String senha;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-	private Instant dataNascimento;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
+	private Date dataNascimento;
 	private Integer periodo;
 	
 	@ManyToOne
@@ -37,10 +37,11 @@ public class Usuario implements Serializable{
 	}
 
 	
-	public Usuario(Long id, String nome, String senha, Instant dataNascimento,Integer periodo, Curso curso) {
+	public Usuario(Long id, String nome, String username,String senha, Date dataNascimento,Integer periodo, Curso curso) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.username = username;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 		this.periodo = periodo;
@@ -72,11 +73,11 @@ public class Usuario implements Serializable{
 		this.senha = senha;
 	}
 
-	public Instant getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Instant dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	
