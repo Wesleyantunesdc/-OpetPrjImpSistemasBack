@@ -24,7 +24,23 @@ public class CursoService {
 		return obj.get();
 	}
 	
-	public Curso insert(Curso obj) {
+	public Curso save(Curso obj) {
 		return repository.save(obj);
+	}
+	
+	public Curso update(Long id,Curso obj) {
+		Curso entity = repository.getOne(id);
+		updateDate(entity,obj);
+		return repository.save(entity);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+	
+	//Método auxiliar
+	private void updateDate(Curso entity, Curso obj) {
+		entity.setNomeCurso(obj.getNomeCurso());
+		
 	}
 }

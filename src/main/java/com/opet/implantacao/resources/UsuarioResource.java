@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.opet.implantacao.entities.Usuario;
+import com.opet.implantacao.error.ResourceNotFoundException;
 import com.opet.implantacao.services.UsuarioService;
 
 @RestController
@@ -31,16 +32,26 @@ public class UsuarioResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Usuario> findById(@PathVariable Long Id) {
-		Usuario obj = service.findById(Id);
+	public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+		Usuario obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@GetMapping(value = "validar_username/{username}")
-	public ResponseEntity<Boolean> validarUsername(@PathVariable String username) {
-		 boolean existe = service.validarUsername(username);
-		return ResponseEntity.ok().body(existe);
+//	@GetMapping(value = "/validar_username/{username}")
+//	public ResponseEntity<Boolean> validarUsername(@PathVariable String username) {
+//		 boolean existe = service.validarUsername(username);
+//		return ResponseEntity.ok().body(existe);
+//	}
+	
+	@GetMapping(value = "/validar_username/{username}")
+	public ResponseEntity<Usuario> validar_username(@PathVariable String username){
+		Usuario usuario = service.findByUsuario(username);
+		if(usuario ==null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(usuario);
 	}
+	
 	
 	@PostMapping
 	public ResponseEntity<Usuario> insert(@RequestBody Usuario obj) throws Exception{
@@ -49,19 +60,24 @@ public class UsuarioResource {
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
-	@PutMapping
-	public boolean efetuarLogin(@RequestBody Usuario obj){
+	@PutMapping(value = "/login")
+	public ResponseEntity<?> efetuarLogin(@RequestBody Usuario obj){
 		Usuario u = service.efetuarLogin(obj);
 		if( u == null) {
-			return false;//ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}else {
-			return true;//ResponseEntity.accepted().body(u);
+			throw new ResourceNotFoundException("Usuario e/ou senha incorretos!\n"+obj.getUsername()+"/"+obj.getSenha());
 		}
+		return ResponseEntity.accepted().body(u);
 	}
 	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Usuario> update(@PathVariable Long id,@RequestBody Usuario obj){
+		Usuario usuario = service.update(id, obj);
+		return ResponseEntity.ok().body(usuario);
+	}
+
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<?> delete(@PathVariable Long id){
 		service.delete(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 }

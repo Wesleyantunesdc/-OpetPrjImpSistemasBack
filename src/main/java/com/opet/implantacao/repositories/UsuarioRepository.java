@@ -18,4 +18,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
 	@Query("SELECT count(1) from Usuario u WHERE u.username = ?1")
 	int usuarioExistente(String username);
+	
+	Usuario findByUsernameIgnoreCase(String username);
 }
